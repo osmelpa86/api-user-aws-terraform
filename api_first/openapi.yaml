@@ -1,0 +1,408 @@
+openapi: 3.0.1
+info:
+  title: Chakray - Users API
+  description: This is an Users API
+  contact:
+    email: osmelpa86@gmail.com
+  version: '1'
+servers:
+  - url: http://localhost:8080
+    description: production server (dev)
+tags:
+  - name: Usuario
+    description: Permite gestionar los tipos de cuentas.
+paths:
+  /users/{user_id}/addresses/{address_id}:
+    put:
+      tags:
+        - Usuario
+      summary: Actualizar dirección
+      description: Actualizar dirección
+      operationId: updateAddress
+      parameters:
+        - name: user_id
+          in: path
+          description: Id usuario
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1234567
+        - name: address_id
+          in: path
+          description: Id dirección
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 458989
+      requestBody:
+        description: Object request to update address.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: El usuario ha sido actualizado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressResponse'
+        '400':
+          description: Algo en la solicitud estaba mal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorContainerResponse'
+        '404':
+          description: No se encontró algún ID que usted solicitó.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorContainerResponse'
+        '500':
+          description: Algo en el servidor estaba mal.
+  /users:
+    get:
+      tags:
+        - Usuario
+      summary: Obtiene todos los tipos de usuarios.
+      description: Obtiene todos los tipos de usuarios.
+      operationId: listUsers
+      parameters:
+        - name: sortedBy
+          in: query
+          description: Campo por el cual filtrar
+          required: false
+          schema:
+            type: string
+            enum:
+              - email
+              - name
+              - id
+              - created_at
+          example: email
+      responses:
+        '200':
+          description: El listado de usuarios.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListResponse'
+        '400':
+          description: Algo en la solicitud estaba mal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorContainerResponse'
+        '500':
+          description: Algo en el servidor estaba mal.
+    post:
+      tags:
+        - Usuario
+      summary: Crear un usuario.
+      description: Crear un usuario.
+      operationId: createUser
+      requestBody:
+        description: Object request to create a user.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+        required: true
+      responses:
+        '201':
+          description: El usuario ha sido creado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Algo en la solicitud estaba mal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorContainerResponse'
+        '500':
+          description: Algo en el servidor estaba mal.
+  /users/{user_id}:
+    delete:
+      tags:
+        - Usuario
+      summary: Eliminar usuario.
+      description: Eliminar usuario.
+      operationId: deleteUser
+      parameters:
+        - name: user_id
+          in: path
+          description: Id usuario
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 12345
+      responses:
+        '204':
+          description: El usuario ha sido eliminado satisfactoriamente.
+        '500':
+          description: Algo en el servidor estaba mal.
+    patch:
+      tags:
+        - Usuario
+      summary: Actualización parcial del usuario
+      description: Actualización parcial del usuario
+      operationId: partialUserUpdate
+      parameters:
+        - name: user_id
+          in: path
+          description: Id usuario
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1234567
+      requestBody:
+        description: Object request to create a user.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: El usuario ha sido actualizado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Algo en la solicitud estaba mal.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorContainerResponse'
+        '404':
+          description: No se encontró algún ID que usted solicitó.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorContainerResponse'
+        '500':
+          description: Algo en el servidor estaba mal.
+  /users/{user_id}/addresses:
+    get:
+      tags:
+        - Usuario
+      summary: Obtiene todas las direcciones de un usuario.
+      description: Obtiene todas las direcciones de un usuario.
+      operationId: listAddresses
+      parameters:
+        - name: user_id
+          in: path
+          description: Id del usuario
+          required: true
+          schema:
+            type: integer
+            format: int64
+          example: 1234567
+      responses:
+        '200':
+          description: El listado de usuarios.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressListResponse'
+        '404':
+          description: No se encontró algún ID que usted solicitó.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorContainerResponse'
+        '500':
+          description: Algo en el servidor estaba mal.
+components:
+  schemas:
+    AddressUpdateRequest:
+      required:
+        - country_code
+        - street
+      type: object
+      properties:
+        street:
+          type: string
+          description: Calle.
+        country_code:
+          type: string
+          description: País.
+    AddressResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: El identificador de la dirección.
+          format: int64
+        street:
+          type: string
+          description: Calle.
+        country_code:
+          type: string
+          description: País.
+    ErrorContainerResponse:
+      type: object
+      properties:
+        errors:
+          $ref: '#/components/schemas/ErrorsResponse'
+    ErrorsResponse:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldErrorResponse'
+        form:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormErrorResponse'
+    FieldErrorResponse:
+      type: object
+      properties:
+        field:
+          type: string
+          description: El nombre del campo con error.
+          example: name
+        codes:
+          type: array
+          description: El listado de los códigos de errores.
+          example:
+            - user.name.required
+          items:
+            type: string
+            description: El listado de los códigos de errores.
+            example: '["user.name.required"]'
+    FormErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          description: El código del error.
+          example: exception.resource.create
+        args:
+          type: array
+          description: El listado de argumentos del mensaje de error.
+          example:
+            - User
+          items:
+            type: string
+            description: El listado de argumentos del mensaje de error.
+            example: '["User"]'
+    AddressCreateRequest:
+      required:
+        - country_code
+        - street
+      type: object
+      properties:
+        street:
+          type: string
+          description: Calle.
+        country_code:
+          type: string
+          description: País.
+      description: Las direcciones del usuario.
+    UserCreateRequest:
+      required:
+        - email
+        - name
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+          description: El correo del usuario.
+        name:
+          type: string
+          description: El nombre del usuario.
+        password:
+          type: string
+          description: La contraseña del usuario.
+        addresses:
+          type: array
+          description: Las direcciones del usuario.
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/AddressCreateRequest'
+            description: Las direcciones del usuario.
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: El identificador del usuario.
+          format: int64
+        email:
+          type: string
+          description: El correo del usuario.
+        name:
+          type: string
+          description: El nombre del usuario.
+        password:
+          type: string
+          description: La contraseña del usuario.
+        created_at:
+          type: string
+          description: La fecha de creación del usuario.
+        addresses:
+          type: array
+          description: Las direcciones del usuario.
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/AddressResponse'
+            description: Las direcciones del usuario.
+    UserUpdateRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: El correo del usuario.
+        name:
+          type: string
+          description: El nombre del usuario.
+        password:
+          type: string
+          description: La contraseña del usuario.
+        addresses:
+          type: array
+          description: Las direcciones del usuario.
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/AddressUpdateRequest'
+            description: Las direcciones del usuario.
+    UserListResponse:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResponse'
+    AddressListResponse:
+      type: object
+      properties:
+        addresses:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              $ref: '#/components/schemas/AddressResponse'
+  parameters:
+    X-api-key:
+      name: X-api-key
+      in: header
+      description: Api key for access api
+      required: true
+      schema:
+        type: string
+      example: key-in-base64

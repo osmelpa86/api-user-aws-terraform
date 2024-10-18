@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+json:
+  file-path: "src/main/resources/users.json"
+
+openapi:
+  version: 1
+  serverUrl: "http://localhost:8080"
+  environment: "production server (dev)"
+  contactMail: osmelpa86@gmail.com
+
+springdoc:
+  pre-loading-locales: en
+  api-docs:
+    enabled: true
+    path: /api-docs
+    resolve-schema-properties: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    displayRequestDuration: true
+    operationsSorter: alpha

@@ -1,0 +1,71 @@
+[
+  {
+    "id": 123,
+    "email": "user1@mail.com",
+    "name": "user1",
+    "password": "7c4a8d09ca3762af61e59520943dc26494f8941b",
+    "created_at": "13-01-2024 00:00:00",
+    "addresses": [
+      {
+        "workaddress": {
+          "id": 1,
+          "street": "street No. 1",
+          "country_code": "UK"
+        }
+      },
+      {
+        "homeaddress": {
+          "id": 2,
+          "street": "street No. 2",
+          "country_code": "AU"
+        }
+      }
+    ]
+  },
+  {
+    "id": 1234,
+    "email": "user2@mail.com",
+    "name": "user2",
+    "password": "7c4a8d09ca3762af61e59520943dc26494f8941b",
+    "created_at": "14-03-2024 00:00:00",
+    "addresses": [
+      {
+        "workaddress": {
+          "id": 3,
+          "street": "street No. 3",
+          "country_code": "UK"
+        }
+      },
+      {
+        "homeaddress": {
+          "id": 4,
+          "street": "street No. 4",
+          "country_code": "AU"
+        }
+      }
+    ]
+  },
+  {
+    "id": 12345,
+    "email": "user3@mail.com",
+    "name": "user3",
+    "password": "7c4a8d09ca3762af61e59520943dc26494f8941b",
+    "created_at": "15-03-2024 00:00:00",
+    "addresses": [
+      {
+        "workaddress": {
+          "id": 5,
+          "street": "street No. 5",
+          "country_code": "UK"
+        }
+      },
+      {
+        "homeaddress": {
+          "id": 6,
+          "street": "street No. 6",
+          "country_code": "AU"
+        }
+      }
+    ]
+  }
+]
